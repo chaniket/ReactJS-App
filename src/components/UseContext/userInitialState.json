@@ -1,0 +1,27 @@
+ [{
+    "id": 1,
+    "firstName": "Sharada Aniket",
+    "lastName": "Chavan",
+    "email": "sharadachavan@gmail.com",
+    "mobileNumber": "9503764321",
+    "dob": "1996-05-13",
+    "age": 28,
+    "deptId": { "id": 1, "name": "Information Tech" },
+    "roleId": { "id": 1, "name": "Java Developer" },
+    "address": [
+      {
+        "id": 1,
+        "address": "Pune",
+        "pincode": "411027",
+        "street": "Old Sangvi",
+        "addressType": "Corrospondce"
+      },
+      {
+        "id": 2,
+        "address": "Sambhaji Nagar",
+        "pincode": "431103",
+        "street": "Chikhalthan",
+        "addressType": "Permanent"
+      }
+    ]
+  }]
