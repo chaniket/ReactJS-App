@@ -1,13 +1,21 @@
- [{
+[
+  {
     "id": 1,
     "firstName": "Sharada Aniket",
     "lastName": "Chavan",
     "email": "sharadachavan@gmail.com",
-    "mobileNumber": "9503764321",
-    "dob": "1996-05-13",
-    "age": 28,
-    "deptId": { "id": 1, "name": "Information Tech" },
-    "roleId": { "id": 1, "name": "Java Developer" },
+    "mobileNumber": "7768061024",
+    "dob": "2001-07-26",
+    "age": 24,
+    "status": "Active",
+    "deptId": {
+      "id": 1,
+      "name": "Information Tech"
+    },
+    "roleId": {
+      "id": 1,
+      "name": "Java Developer"
+    },
     "address": [
       {
         "id": 1,
@@ -24,4 +32,67 @@
         "addressType": "Permanent"
       }
     ]
-  }]
+  },
+  {
+    "id": 2,
+    "firstName": "Aniket Chavan",
+    "lastName": "Chavan",
+    "email": "aniketchavan@gmail.com",
+    "mobileNumber": "9503764321",
+    "dob": "1996-05-13",
+    "age": 28,
+    "status": "Active",
+    "deptId": {
+      "id": 1,
+      "name": "Information Tech"
+    },
+    "roleId": {
+      "id": 1,
+      "name": "Senior Java Developer"
+    },
+    "address": [
+      {
+        "id": 1,
+        "address": "Pune",
+        "pincode": "411027",
+        "street": "Old Sangvi",
+        "addressType": "Corrospondce"
+      },
+      {
+        "id": 2,
+        "address": "Sambhaji Nagar",
+        "pincode": "431103",
+        "street": "Chikhalthan",
+        "addressType": "Permanent"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "firstName": "XYA",
+    "lastName": "XYZ",
+    "email": "xyz@gmail.com",
+    "mobileNumber": "9503000021",
+    "dob": "2000-05-13",
+    "age": 23,
+    "status": "InActive",
+    "deptId": {
+      "id": 1,
+      "name": "Information Tech"
+    },
+    "roleId": {
+      "id": 1,
+      "name": "Freelancer Java Developer"
+    },
+    "address": [
+      
+      {
+        "id": 2,
+        "address": "Sambhaji Nagar",
+        "pincode": "431103",
+        "street": "Chikhalthan",
+        "addressType": "Permanent"
+      }
+    ]
+  }
+]

@@ -18,18 +18,21 @@ import UseEffectWithApiCall from "./components/UseEffectWithApiCall/UseEffectWit
 import UseContextWithApi from "./components/UseContext/UseContextWithApi";
 import UseEffectWithTimer from "./components/UseEffect/UseEffectWithTimer";
 import { UseContextWithComponents } from "./components/UseContext/UseContextWithComponents";
+import Dashboard from "./components/Dashboard/Dashboard";
+import UrlParameterEx from "./components/RoutesEx/UrlParameterEx";
+import UsersRoute from "./components/RoutesEx/UsersRoute";
 function MyButton() {
   return <button>I'm a button</button>;
 }
 
 function App() {
   let name = "Aniket Chavan Patil";
-
+  //<UseEffectWithApiCall />
+  //<UseContextWithApi />
   return (
     <div className="App">
-      <Header />
-      
-      <UseContextWithApi /> 
+    
+      <Dashboard />
 
       <br />
       <br />

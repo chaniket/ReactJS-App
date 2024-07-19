@@ -34,9 +34,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
-
-const SetFormDetails = () => {
+const SetFormDetails = (props) => {
 
   const [form,setForm] = useState({});
   let [userData,setData] = useState([]);

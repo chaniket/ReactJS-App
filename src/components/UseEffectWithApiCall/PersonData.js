@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   TableRow,
   styled,
   TableCell,
   tableCellClasses,
   Button,
+  TableBody,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Link, NavLink } from "react-router-dom";
+import SetFormDetails from "../SetFormDetails/SetFormDetails";
+import { UserRowContext,UserListContext } from "./UseEffectWithApiCall";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,43 +32,72 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+
 const PersonData = ({ element, index, data, setData }) => {
+  const logPersonData = "PersonData ";
   /* let element = props.element;
   let data = props.data;
   let setData = props.setData; */
-  function removeItem() {
-    let arr = data;
-    arr.splice(index, 1);
-    setData([...arr]);
+  const user = useContext(UserRowContext);
+  const userList = useContext(UserListContext);
+  debugger;
+  if(user !=null && user != undefined && (data == null || data==undefined)){ // this records are coming using the Context from UseEffectWithApiCall
+    console.log(logPersonData+" "+JSON.stringify(user.element));
+    element = user.element;
+    index = user.index;
+    data = userList;
+    setData = user.setData;
   }
 
+  if(data ==null || data == undefined){
+    return; 
+  }
+  function removeItem() {
+    let arr = data;
+    debugger;
+    arr.splice(index, 1);
+    setData([...arr]);
+    if (arr.length === 0) {
+      setData([]);
+    }
+  }
+  //<SetFormDetails element = {element}/>
   return (
-    <TableRow key={element.id}>
-      <StyledTableCell>{element.id} &nbsp;{index}</StyledTableCell>
-      <StyledTableCell>{element.firstName}</StyledTableCell>
-      <StyledTableCell>{element.lastName}</StyledTableCell>
-      <StyledTableCell>{element.email}</StyledTableCell>
-      <StyledTableCell>{element.mobileNumber}</StyledTableCell>
-      <StyledTableCell>{element.dob}</StyledTableCell>
-      <StyledTableCell>{element.age}</StyledTableCell>
-      <StyledTableCell>{element.deptId.name}</StyledTableCell>
-      <StyledTableCell>{element.roleId.name}</StyledTableCell>
-      <StyledTableCell>
-        {element.address.map((addr) => (
-          <div key={addr.id}>
-            <div>{addr.address}</div>
-            <div>
-              {addr.street}, {addr.pincode}
+    <TableBody>
+      <TableRow key={element.id}>
+        <StyledTableCell>
+          <Link to={`/${element.id}`}>{element.id}</Link>
+          &nbsp;{/*index*/}
+        </StyledTableCell>
+        <StyledTableCell>
+          <NavLink to={`/users/${element.id}?status=${element.status}`}>
+            {element.firstName}
+          </NavLink>
+        </StyledTableCell>
+        <StyledTableCell>{element.lastName} </StyledTableCell>
+        <StyledTableCell>{element.email}</StyledTableCell>
+        <StyledTableCell>{element.mobileNumber}</StyledTableCell>
+        <StyledTableCell>{element.dob}</StyledTableCell>
+        <StyledTableCell>{element.age}</StyledTableCell>
+        <StyledTableCell>{element.deptId.name}</StyledTableCell>
+        <StyledTableCell>{element.roleId.name}</StyledTableCell>
+        <StyledTableCell>
+          {element.address.map((addr) => (
+            <div key={addr.id}>
+              <div style={{ display: "none" }}>{addr.address}</div>
+              <div>
+                {addr.street}, {addr.pincode}
+              </div>
             </div>
-          </div>
-        ))}
-      </StyledTableCell>
-      <StyledTableCell>
-        <Button variant="contained" color="success" onClick={removeItem}>
-          <DeleteIcon />
-        </Button>
-      </StyledTableCell>
-    </TableRow>
+          ))}
+        </StyledTableCell>
+        <StyledTableCell>
+          <Button variant="contained" color="success" onClick={removeItem}>
+            <DeleteIcon />
+          </Button>
+        </StyledTableCell>
+      </TableRow>
+    </TableBody>
   );
 };
 

@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import "./useeffect.css";
 import Button from "@mui/material/Button";
 import { Stack } from "@mui/material";
-import axios from "axios";
+//import axios from "axios";
+//import userInitialState from '../userInitialState.json'
+import userInitialState from "../UseContext/userInitialState.json";
+import cloneDeep from "lodash.clonedeep";
+import { useSearchParams, useParams } from "react-router-dom";
+
 import {
   Table,
   TableBody,
@@ -10,9 +15,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,styled,tableCellClasses
+  Paper,
+  styled,
+  tableCellClasses,
 } from "@mui/material";
-import PersonData from './PersonData'
+import PersonData from "./PersonData";
+import { Outlet } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,38 +42,33 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-let sampleData = {
-  id: 1,
-  firstName: "Sharada",
-  lastName: "Chavan",
-  email: "sharadachavan@gmail.com",
-  mobileNumber: "9503764321",
-  dob: "1996-05-13",
-  age: 28,
-  deptId: {
-    id: 1,
-    name: "Information Tech",
-  },
-  roleId: {
-    id: 1,
-    name: "Java Developer",
-  },
-  address: [
-    {
-      id: 1,
-      address: "Pune",
-      pincode: "411027",
-      street: "Old Sangvi",
-    },
-  ],
-};
+//const tempuserInitialState =  structuredClone(userInitialState);
+const tempuserInitialState = cloneDeep(userInitialState);
 
-const UseEffectWithApiCall = () => {
+const UserRowContext = createContext();
+const UserListContext = createContext();
+
+const UseEffectWithApiCall = (props) => {
+  //debugger;
+  const constLog = "UseEffectWithApiCall";
+  const [userStatus, setUserStatus] = useState(props.usersStatus);
   const [state, setState] = useState(1);
-  const [data, setData] = useState([sampleData,sampleData,sampleData]);
+  let [data, setData] = useState(userInitialState);
+  let count = 0;
+  //data.forEach((ele) => console.log("Element " + ele.id));
+  /* data = data.map((ele) => {
+    ele.id = count;
+    count++;
+  }); */
+  //setData(data);
+  //data.forEach((ele) => console.log("Element " + ele.id));
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    //debugger;
+    // console.log("Use Effect Data " + JSON.stringify(data));
+    //console.log("Use Effect userInitialState " + JSON.stringify(tempuserInitialState));
+    setData(tempuserInitialState);
     fetch(
       "http://localhost:8082/saga-user-service/users/getAllUsers?page=0&size=100",
       {
@@ -82,27 +85,34 @@ const UseEffectWithApiCall = () => {
       .then((data) => {
         console.log("Success:", data);
         console.log("Data " + data.content);
+        debugger;
         setData(data.content);
-        sampleData = data.content;
       })
       .catch((error) => {
-        console.error("Error:", error);
+        //console.error("Error:", error);
         setError(error);
       });
-      
-      async function getAllUser() {
-        console.log("State  "+state);
-        const data = await fetch(
-          "http://localhost:8082/saga-user-service/users/getAllUsers?page=0&size=100"
-        );
+
+    async function getAllUser() {
+      console.log("State  " + state);
+      const data = await fetch(
+        "http://localhost:8082/saga-user-service/users/getAllUsers?page=0&size=100"
+      ).catch((error) => {
+        console.error("getAllUser :", error);
+        setError(error);
+      });
+      try {
         const res = await data.json();
-        if(res.ok){
-          console.log("GET ALL USERS "+res.content);
+        if (res.ok) {
+          console.log("GET ALL USERS " + res.content);
           setState(res.content.length);
-          document.title = res.content.length+' Users';
+          document.title = res.content.length + " Users";
         }
+      } catch (e) {
+        //console.log("Error Handled..." + e);
       }
-      getAllUser();
+    }
+    getAllUser();
     // window.alert("UseEffect Called...");
     console.log("UseEffect Called...");
   }, [state]);
@@ -131,6 +141,29 @@ const UseEffectWithApiCall = () => {
           >
             Click Me! {state}
           </Button>
+
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => setUserStatus("Active")}
+          >
+            Active
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => setUserStatus("InActive")}
+          >
+            InActive
+          </Button>
+
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => setUserStatus("All")}
+          >
+            Reset Filter
+          </Button>
         </Stack>
 
         <TableContainer component={Paper}>
@@ -150,18 +183,56 @@ const UseEffectWithApiCall = () => {
                 <StyledTableCell>Action</StyledTableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {data.length !== 0 ? (
-                data.map((element, index) => {
+
+            {data != null && data.length !== 0 ? (
+              data.map((element, index) => {
+                if (element.status === userStatus || userStatus === "All") {
+                  /* if(element.id==1){
+                    return (<>
+                    <UserRowContext.Provider value={element}>
+                          <PersonData
+                           
+                          />
+                    </UserRowContext.Provider>
+                    </>);
+                  } */
                   return (
-                      <PersonData key={index} index = {index} element = {element}
-                       data= {data} setData={setData} />
+                    <>
+                    <UserRowContext.Provider value={{index,element,data,setData}}>
+                         <UserListContext.Provider value={data}>
+                        {/*calling PersonData using UseContext instead of parameter  */}
+                              <PersonData/>
+
+                          </UserListContext.Provider>
+                    </UserRowContext.Provider>
+                    <PersonData
+                      key={index}
+                      index={index}
+                      element={element}
+                      data={data}
+                      setData={setData}
+                    />
+                </>
+
                   );
-                })
-              ) : (
-                <h1>No Data</h1>
-              )}
-            </TableBody>
+                }
+              })
+            ) : (
+              <TableBody>
+                <TableRow>
+                  <TableCell
+                    colSpan="11"
+                    style={{
+                      textAlign: "center",
+                      fontSize: "20px",
+                      fontWeight: "bolder",
+                    }}
+                  >
+                    No Data Available
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
       </div>
@@ -170,3 +241,4 @@ const UseEffectWithApiCall = () => {
 };
 
 export default UseEffectWithApiCall;
+export {UserRowContext,UserListContext}
