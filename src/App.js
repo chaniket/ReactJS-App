@@ -21,6 +21,16 @@ import { UseContextWithComponents } from "./components/UseContext/UseContextWith
 import Dashboard from "./components/Dashboard/Dashboard";
 import UrlParameterEx from "./components/RoutesEx/UrlParameterEx";
 import UsersRoute from "./components/RoutesEx/UsersRoute";
+import UseRefCourse from "./components/UseRefCourse/UseRefCourse";
+import UseRefCourseWithOutUseEff from "./components/UseRefCourse/UseRefCourseWithOutUseEff";
+import UseReducer from "./components/UseReducer/UseReducer";
+import CustomHook from "./components/CustomHook/CustomHook";
+import UseMemoHook from "./components/UseMemoHook/UseMemoHook";
+import UseCallBackHook from "./components/UseCallBackHook/UseCallBackHook";
+import UseCallBackHookSolution from "./components/UseCallBackHook/UseCallBackHookSolution";
+import LoadingScreen from "./components/LoaderAndToastify/LoadingScreen";
+import SimpleClass from "./components/OOP/SimpleClass";
+
 function MyButton() {
   return <button>I'm a button</button>;
 }
@@ -31,27 +41,35 @@ function App() {
   //<UseContextWithApi />
   return (
     <div className="App">
+
     
-      <Dashboard />
+      <SimpleClass />
+
+      
 
       <br />
       <br />
-
-      <div className="poster" style={{ display: "none" }}>
-        {moviesList.map((element, index) => {
-          return (
-            <Movies
-              key={index}
-              element={element}
-              Title={element.Title}
-              Year={element.Year}
-              Poster={element.Poster}
-            />
-          );
-        })}
-      </div>
     </div>
   );
 }
+
+/*
+{
+  <div className="poster" style={{ display: "none" }}>
+  {moviesList.map((element, index) => {
+    return (
+      <Movies
+        key={index}
+        element={element}
+        Title={element.Title}
+        Year={element.Year}
+        Poster={element.Poster}
+      />
+    );
+  })}
+</div>
+
+}
+*/
 
 export default App;

@@ -40,7 +40,7 @@ const PersonData = ({ element, index, data, setData }) => {
   let setData = props.setData; */
   const user = useContext(UserRowContext);
   const userList = useContext(UserListContext);
-  debugger;
+  //debugger;
   if(user !=null && user != undefined && (data == null || data==undefined)){ // this records are coming using the Context from UseEffectWithApiCall
     console.log(logPersonData+" "+JSON.stringify(user.element));
     element = user.element;
@@ -63,8 +63,8 @@ const PersonData = ({ element, index, data, setData }) => {
   }
   //<SetFormDetails element = {element}/>
   return (
-    <TableBody>
-      <TableRow key={element.id}>
+    <TableBody key={element.id}>
+      <TableRow>
         <StyledTableCell>
           <Link to={`/${element.id}`}>{element.id}</Link>
           &nbsp;{/*index*/}

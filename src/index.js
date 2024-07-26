@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+/* <React.StrictMode> thia is making useEffect to re-render two times */
 root.render(
   <React.StrictMode>
     <App />
