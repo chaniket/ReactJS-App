@@ -229,6 +229,16 @@ const UseEffectWithApiCall = (props) => {
           >
             Reset Filter
           </Button>
+
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => setUserStatus("All")}
+          >
+            Add User
+          </Button>
+          
+
         </Stack>
         {loadingIcon ? (
           <>
@@ -266,7 +276,7 @@ const UseEffectWithApiCall = (props) => {
                 </TableRow>
               </TableHead>
 
-              {data != null && data.length !== 0 ? (
+              {data !== null && data.length !== 0 ? (
                 data.map((element, index) => {
                   if (element.status === userStatus || userStatus === "All") {
                     /* if(element.id==1){

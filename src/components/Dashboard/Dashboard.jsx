@@ -14,6 +14,7 @@ import About from "../AboutPage/About";
 import UseEffectWithApiCall from "../UseEffectWithApiCall/UseEffectWithApiCall";
 import SetFormDetails from "../SetFormDetails/SetFormDetails";
 import UseContextWithApi from "../UseContext/UseContextWithApi";
+import FormUsingReact from "../CreateFormUsingReact/FormUsingReact";
 
 const Dashboard = () => {
   return (
@@ -30,7 +31,7 @@ const Dashboard = () => {
               <Route path="aboutCompany" element={<AboutComapany />}></Route>
             </Route>
             <Route path="/users" element={<Users />}>
-              
+              <Route path="createUser" element={<FormUsingReact />}></Route>
             </Route>
             <Route path="/users/:id" element={<UseContextWithApi />}></Route>
 

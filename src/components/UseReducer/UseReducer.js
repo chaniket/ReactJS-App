@@ -9,16 +9,12 @@ const reducer = (state, action) => {
   switch (action.type) {
     case '+':
       return state + 2;
-      break;
     case '-':
       return state - 2;
-      break;
     case '*':
       return state * 2;
-      break;
     case '/':
      return state / 2;
-      break;
     default:
       break;
   }

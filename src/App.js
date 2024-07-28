@@ -30,6 +30,8 @@ import UseCallBackHook from "./components/UseCallBackHook/UseCallBackHook";
 import UseCallBackHookSolution from "./components/UseCallBackHook/UseCallBackHookSolution";
 import LoadingScreen from "./components/LoaderAndToastify/LoadingScreen";
 import SimpleClass from "./components/OOP/SimpleClass";
+import ReactRedux from "./components/ReactRedux/ReactRedux";
+import FormUsingReact from "./components/CreateFormUsingReact/FormUsingReact"
 
 function MyButton() {
   return <button>I'm a button</button>;
@@ -42,9 +44,7 @@ function App() {
   return (
     <div className="App">
 
-    
-      <SimpleClass />
-
+    <ReactRedux />
       
 
       <br />
