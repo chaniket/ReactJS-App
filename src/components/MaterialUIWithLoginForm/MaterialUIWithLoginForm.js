@@ -15,6 +15,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { json } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -36,28 +37,34 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const MaterialUIWithLoginForm = () => {
+const MaterialUIWithLoginForm = ({ setData }) => {
+ // window.alert("In Material "+JSON.stringify(setData));
+  console.log("In Material "+JSON.stringify(setData));
   const [username, setUserName] = useState("aniketchavan7507@gmail.com");
   const [password, setPassword] = useState("Aniket");
   const [firstName, setFirstName] = useState("Aniket");
   const [lastName, setLastName] = useState("Chavan");
+  const [mobileNumber, setMobileNumber] = useState("9503764321");
+  const [age, setAge] = useState("29");
   let [count, setCount] = useState(0);
-  let [userData, setData] = useState([]);
+  let [userData, setUserData] = useState(setData);
 
   const addData = () => {
     debugger;
     count = count + 1;
     setCount(count);
-    setData([...userData, { username, password, firstName, lastName, count }]);
+    setUserData([...userData, { mobileNumber, age, firstName, lastName, count }]);
+    //props.data([...userData, { username, password, firstName, lastName, count }]);
+    //setData([...userData, { mobileNumber, age, firstName, lastName, count }]);
     //console.log("userData " + JSON.stringify(userData));
   };
 
-  function callMethod(index) {
+  function deleteRowById(index) {
     debugger;
     //alert("hi "+count);
     //userData.splice(index,1);
     userData = userData.filter((ele) => ele.count != index);
-    setData(userData);
+    setUserData(userData);
     userData
       .filter((ele) => ele.count != index)
       .forEach((ele) => console.log(ele));
@@ -102,17 +109,17 @@ const MaterialUIWithLoginForm = () => {
           />
 
           <TextField
-            value={username}
-            onChange={(event) => onChangeUserName(event.target.value)}
+            value={mobileNumber}
+            onChange={(event) => setMobileNumber(event.target.value)}
             id="outlined-basic"
-            label="User Name"
+            label="Mobile No"
             variant="outlined"
           />
           <TextField
-            value={password}
-            onChange={(event) => onChangePassword(event.target.value)}
+            value={age}
+            onChange={(event) => setAge(event.target.value)}
             id="outlined-basic"
-            label="Password"
+            label="Age"
             variant="outlined"
           />
 
@@ -129,8 +136,8 @@ const MaterialUIWithLoginForm = () => {
                 <StyledTableCell>Id</StyledTableCell>
                 <StyledTableCell>First Name</StyledTableCell>
                 <StyledTableCell align="right">Last Name</StyledTableCell>
-                <StyledTableCell align="right">User Name</StyledTableCell>
-                <StyledTableCell align="right">Password</StyledTableCell>
+                <StyledTableCell align="right">Mobile No</StyledTableCell>
+                <StyledTableCell align="right">Age</StyledTableCell>
                 <StyledTableCell align="right">Remove</StyledTableCell>
               </TableRow>
             </TableHead>
@@ -146,16 +153,16 @@ const MaterialUIWithLoginForm = () => {
                     {row.lastName}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {row.username}
+                    {row.mobileNumber}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {row.password}
+                    {row.age}
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     <Button
                       variant="contained"
                       color="info"
-                      onClick={(element) => callMethod(row.count)}
+                      onClick={(element) => deleteRowById(row.count)}
                     >
                       <DeleteIcon />
                     </Button>

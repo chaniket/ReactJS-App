@@ -5,6 +5,7 @@ import { Stack } from "@mui/material";
 //import axios from "axios";
 //import userInitialState from '../userInitialState.json'
 import userInitialState from "../UseContext/userInitialState.json";
+import MaterialUIWithLoginForm from "../MaterialUIWithLoginForm/MaterialUIWithLoginForm";
 import cloneDeep from "lodash.clonedeep";
 import { BrowserRouter as Router } from "react-router-dom";
 //import { useSearchParams, useParams } from "react-router-dom";
@@ -55,6 +56,7 @@ const UserListContext = createContext();
 
 const UseEffectWithApiCall = (props) => {
   //debugger;
+  const [showAddUserForm, setShowAddUserForm] = useState(false);
   const constLog = "UseEffectWithApiCall Component ";
   const [userStatus, setUserStatus] = useState(
     props.usersStatus == undefined ? "All" : props.usersStatus
@@ -71,6 +73,11 @@ const UseEffectWithApiCall = (props) => {
   //setData(data);
   //data.forEach((ele) => console.log("Element " + ele.id));
   const [error, setError] = useState(null);
+
+  const handleDataFromChild = (childData) => {
+    setData(childData);
+    setShowAddUserForm(false); // Optionally hide the form after receiving data
+  };
 
   useEffect(() => {
     setLoadingIcon(true);
@@ -143,7 +150,10 @@ const UseEffectWithApiCall = (props) => {
   }
   // window.alert("Function Body Called...");
   //console.log("Function Body Called...");
-
+const handeShowAddUserForm = (btnStatus,stat) =>{
+  setShowAddUserForm(stat);
+  setUserStatus(btnStatus);
+};
   const clickMe = () => {
     //window.alert("Click Me const executed!");
     console.log("Click Me const executed!");
@@ -210,14 +220,14 @@ const UseEffectWithApiCall = (props) => {
           <Button
             variant="contained"
             color="success"
-            onClick={() => setUserStatus("Active")}
+            onClick={() => handeShowAddUserForm("Active",false)}
           >
             Active
           </Button>
           <Button
             variant="contained"
             color="success"
-            onClick={() => setUserStatus("InActive")}
+            onClick={() => handeShowAddUserForm("InActive",false)}
           >
             InActive
           </Button>
@@ -225,7 +235,7 @@ const UseEffectWithApiCall = (props) => {
           <Button
             variant="contained"
             color="success"
-            onClick={() => setUserStatus("All")}
+            onClick={() => handeShowAddUserForm("All",false)}
           >
             Reset Filter
           </Button>
@@ -233,14 +243,17 @@ const UseEffectWithApiCall = (props) => {
           <Button
             variant="contained"
             color="success"
-            onClick={() => setUserStatus("All")}
+            onClick={() => handeShowAddUserForm("",true)}
           >
             Add User
           </Button>
           
-
         </Stack>
-        {loadingIcon ? (
+      {
+        showAddUserForm && <MaterialUIWithLoginForm setData={data} />
+      }
+      { !showAddUserForm ? (
+        loadingIcon ? (
           <>
             <h1>loading</h1>
             <hr />
@@ -327,7 +340,9 @@ const UseEffectWithApiCall = (props) => {
               )}
             </Table>
           </TableContainer>
-        )}
+        )
+      ) : (<p>...</p>)
+      }
       </div>
     </>
   );

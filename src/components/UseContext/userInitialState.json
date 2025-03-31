@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "count": 1,
     "firstName": "Sharada Aniket",
     "lastName": "Chavan",
     "email": "sharadachavan@gmail.com",
@@ -35,6 +36,7 @@
   },
   {
     "id": 2,
+    "count": 2,
     "firstName": "Aniket Chavan",
     "lastName": "Chavan",
     "email": "aniketchavan@gmail.com",
@@ -69,6 +71,7 @@
   },
   {
     "id": 3,
+    "count": 3,
     "firstName": "XYA",
     "lastName": "XYZ",
     "email": "xyz@gmail.com",

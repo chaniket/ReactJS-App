@@ -62,10 +62,11 @@ function Users() {
   console.log("Users");
   return (
     <>
+    <h2>Users Header</h2>
       <UseEffectWithApiCall usersStatus="Active" />
       <br />
       <br />
-      <h2>Users Header</h2>
+      
     </>
   );
 }
