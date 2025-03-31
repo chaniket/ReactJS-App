@@ -4,8 +4,8 @@ import { TextField, Button } from "@mui/material";
 import Portal from "@mui/material";
 import { Diversity1Rounded } from "@mui/icons-material";
 import userInitialState from "./userInitialState.json";
-
-import { useParams,useNavigate,useSearchParams } from "react-router-dom";
+import { useParams,useNavigate,useSearchParams, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const UserContext = createContext();
 
@@ -15,18 +15,22 @@ const constLog = "UseContextWithApi ";
 
   setTimeout(() => {
     navigate(-1);
-  }, 3000);
-
+  }, 5000);
+  const location = useLocation();
   let { id } = useParams();
+  const queryParams = new URLSearchParams(location.search);
+  const status = queryParams.get('status');
   const [searchParams, setSearchParams] = useSearchParams();
   console.log(constLog+" searchParams - "+searchParams.get('status'));
   console.log(constLog+
     "UseContextWithApi ID = " + id + ", props = " + JSON.stringify(props)
   );
-  let initialState = userInitialState[0];
+  
+  const userDataStorage = useSelector((state) => state.userDataStorage);
+  let initialState = userDataStorage[0];
   debugger;
   if (id != null && id != undefined) {
-    initialState = userInitialState.filter((ele) => ele.id == id)[0];
+    initialState = userDataStorage.filter((ele) => ele.id == id)[0];
   }
 
   const [formData, setFormData] = useState(initialState);
@@ -137,7 +141,7 @@ const constLog = "UseContextWithApi ";
           name="departent"
           label="Department"
           variant="outlined"
-          value={formData.deptId.name}
+          value={formData.deptId?.name}
           onChange={(e) => handleNestedChange(e, "deptId")}
         />
 
@@ -147,11 +151,11 @@ const constLog = "UseContextWithApi ";
           name="name"
           variant="outlined"
           id="role"
-          value={formData.roleId.name}
+          value={formData.roleId?.name}
           onChange={(e) => handleNestedChange(e, "roleId")}
         />
 
-        {formData.address.map((addr, index) => (
+        {formData.address?.map((addr, index) => (
           <div key={addr.id}>
             <h3>Address {index + 1}</h3>
 
@@ -204,7 +208,7 @@ const constLog = "UseContextWithApi ";
           draggable
           onClick={()=>navigate(-1)}
         >
-          Go back
+          Go backk
         </Button>
       </form>
     </Box>

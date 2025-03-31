@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import AddIcon from "@mui/icons-material/Add";
 import UserDetails from "./UserDetails";
-
+import { v4 as uuid } from "uuid";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -16,6 +16,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { json } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { UserDataStorage } from "../ReactRDXStorage/UserDataStorageFile";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -37,26 +39,40 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const MaterialUIWithLoginForm = ({ setData }) => {
- // window.alert("In Material "+JSON.stringify(setData));
-  console.log("In Material "+JSON.stringify(setData));
+const MaterialUIWithLoginForm = ({ onDataSubmit, setData, data }) => {
+  //window.alert("In Material "+JSON.stringify(data));
+  const userDataStorage = useSelector((state) => state.userDataStorage);
+  // console.log("userDataStorage from storage "+userDataStorage);
+  const dispatch = useDispatch();
+  //console.log("In Material "+JSON.stringify(data));
   const [username, setUserName] = useState("aniketchavan7507@gmail.com");
   const [password, setPassword] = useState("Aniket");
   const [firstName, setFirstName] = useState("Aniket");
   const [lastName, setLastName] = useState("Chavan");
   const [mobileNumber, setMobileNumber] = useState("9503764321");
   const [age, setAge] = useState("29");
-  let [count, setCount] = useState(0);
-  let [userData, setUserData] = useState(setData);
+  let [count, setCount] = useState(data.length);
+  let [userData, setUserData] = useState(data);
+  
+  
 
   const addData = () => {
     debugger;
+    const uid = uuid();
     count = count + 1;
     setCount(count);
-    setUserData([...userData, { mobileNumber, age, firstName, lastName, count }]);
-    //props.data([...userData, { username, password, firstName, lastName, count }]);
-    //setData([...userData, { mobileNumber, age, firstName, lastName, count }]);
-    //console.log("userData " + JSON.stringify(userData));
+    let id = count;
+    let status = "Active";
+    let dob ="1996-03-13";
+    setUserData([...userData, { mobileNumber, age, firstName, lastName, count, id ,status,dob}]);
+    if (typeof onDataSubmit === 'function') {
+     // onDataSubmit({ mobileNumber, age, firstName, lastName, count, id,status,dob });
+    } else {
+      console.error('onDataSubmit is not a function');
+    }
+    let arr = data;
+    setData([...arr, { mobileNumber, age, firstName, lastName, count, id,status,dob }]);
+    dispatch(UserDataStorage(userData));
   };
 
   function deleteRowById(index) {

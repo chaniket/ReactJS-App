@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import store from "./components/ReactRedux/store";
+import store from "./components/ReactRDXStorage/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 /* <React.StrictMode> thia is making useEffect to re-render two times */

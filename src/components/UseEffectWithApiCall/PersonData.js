@@ -11,6 +11,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Link, NavLink } from "react-router-dom";
 import SetFormDetails from "../SetFormDetails/SetFormDetails";
 import { UserRowContext,UserListContext } from "./UseEffectWithApiCall";
+import { useDispatch, useSelector } from "react-redux";
+import { UserDataStorage } from "../ReactRDXStorage/UserDataStorageFile";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -40,7 +42,11 @@ const PersonData = ({ element, index, data, setData }) => {
   let setData = props.setData; */
   const user = useContext(UserRowContext);
   const userList = useContext(UserListContext);
-  //debugger;
+  const userDataStorage = useSelector((state) => state.userDataStorage);
+  console.log("userDataStorage from storage "+userDataStorage);
+  const dispatch = useDispatch();
+  
+  debugger;
   if(user !=null && user != undefined && (data == null || data==undefined)){ // this records are coming using the Context from UseEffectWithApiCall
     console.log(logPersonData+" "+JSON.stringify(user.element));
     element = user.element;
@@ -53,6 +59,7 @@ const PersonData = ({ element, index, data, setData }) => {
     return; 
   }
   function removeItem() {
+    debugger;
     let arr = data;
     debugger;
     arr.splice(index, 1);
@@ -60,6 +67,7 @@ const PersonData = ({ element, index, data, setData }) => {
     if (arr.length === 0) {
       setData([]);
     }
+    dispatch(UserDataStorage(arr));
   }
   //<SetFormDetails element = {element}/>
   return (
@@ -70,7 +78,7 @@ const PersonData = ({ element, index, data, setData }) => {
           &nbsp;{/*index*/}
         </StyledTableCell>
         <StyledTableCell>
-          <NavLink to={`/users/${element.id}?status=${element.status}`}>
+          <NavLink to={`/users/${element.id}?status=${element.status}`} >
             {element.firstName}
           </NavLink>
         </StyledTableCell>
@@ -79,10 +87,10 @@ const PersonData = ({ element, index, data, setData }) => {
         <StyledTableCell>{element.mobileNumber}</StyledTableCell>
         <StyledTableCell>{element.dob}</StyledTableCell>
         <StyledTableCell>{element.age}</StyledTableCell>
-        <StyledTableCell>{element.deptId.name}</StyledTableCell>
-        <StyledTableCell>{element.roleId.name}</StyledTableCell>
+        <StyledTableCell>{element.deptId?.name ?? 'N/A'}</StyledTableCell>
+        <StyledTableCell>{element.roleId?.name ?? 'N/A'}</StyledTableCell>
         <StyledTableCell>
-          {element.address.map((addr) => (
+          {element.address?.map((addr) => (
             <div key={addr.id}>
               <div style={{ display: "none" }}>{addr.address}</div>
               <div>

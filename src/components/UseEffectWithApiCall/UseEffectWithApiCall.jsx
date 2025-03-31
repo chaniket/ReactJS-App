@@ -25,9 +25,10 @@ import PersonData from "./PersonData";
 import { TailSpin } from "react-loader-spinner";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch, useSelector } from "react-redux";
 //import { Outlet } from "react-router-dom";
 //import { TailSpin } from "react-loader-spinner";
-
+import { UserDataStorage } from "../ReactRDXStorage/UserDataStorageFile";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -55,7 +56,12 @@ const UserRowContext = createContext();
 const UserListContext = createContext();
 
 const UseEffectWithApiCall = (props) => {
-  //debugger;
+  debugger;
+
+  const userDataStorage = useSelector((state) => state.userDataStorage);
+  console.log("userDataStorage from storage "+userDataStorage);
+  const dispatch = useDispatch();
+  //dispatch(UserDataStorage(userDataStorage));
   const [showAddUserForm, setShowAddUserForm] = useState(false);
   const constLog = "UseEffectWithApiCall Component ";
   const [userStatus, setUserStatus] = useState(
@@ -65,6 +71,7 @@ const UseEffectWithApiCall = (props) => {
   let [data, setData] = useState(userInitialState);
   const [loadingIcon, setLoadingIcon] = useState(false);
   let count = 0;
+   dispatch(UserDataStorage(data));
   //data.forEach((ele) => console.log("Element " + ele.id));
   /* data = data.map((ele) => {
     ele.id = count;
@@ -75,7 +82,9 @@ const UseEffectWithApiCall = (props) => {
   const [error, setError] = useState(null);
 
   const handleDataFromChild = (childData) => {
-    setData(childData);
+    debugger;
+    window.alert("child" + JSON.stringify(childData));
+    setData([...data, childData]);
     setShowAddUserForm(false); // Optionally hide the form after receiving data
   };
 
@@ -151,6 +160,7 @@ const UseEffectWithApiCall = (props) => {
   // window.alert("Function Body Called...");
   //console.log("Function Body Called...");
 const handeShowAddUserForm = (btnStatus,stat) =>{
+  debugger;
   setShowAddUserForm(stat);
   setUserStatus(btnStatus);
 };
@@ -184,7 +194,7 @@ const handeShowAddUserForm = (btnStatus,stat) =>{
 
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -250,7 +260,8 @@ const handeShowAddUserForm = (btnStatus,stat) =>{
           
         </Stack>
       {
-        showAddUserForm && <MaterialUIWithLoginForm setData={data} />
+      //  showAddUserForm && <MaterialUIWithLoginForm setData={data} />
+      showAddUserForm && <MaterialUIWithLoginForm onDataSubmit={handleDataFromChild} setData={setData} data={data} />
       }
       { !showAddUserForm ? (
         loadingIcon ? (
@@ -285,7 +296,7 @@ const handeShowAddUserForm = (btnStatus,stat) =>{
                   <StyledTableCell>Department</StyledTableCell>
                   <StyledTableCell>Role</StyledTableCell>
                   <StyledTableCell>Address</StyledTableCell>
-                  <StyledTableCell>Action</StyledTableCell>
+                  <StyledTableCell>Action1 s={data.length} s={userStatus}</StyledTableCell>
                 </TableRow>
               </TableHead>
 
