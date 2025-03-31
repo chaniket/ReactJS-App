@@ -44,9 +44,8 @@ function App() {
   return (
     <div className="App">
 
-    <ReactRedux />
-      
-
+    
+    <Dashboard />
       <br />
       <br />
     </div>
